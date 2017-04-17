@@ -12,7 +12,7 @@ MARSS MLE Selection Example.R  | Example of AICc-based model selection for parsi
 
 ***
 ## Citation Information:
-#### All R scripts and helper functions are based on functions contained within the following R packages:
+#### All R scripts and helper functions are based on the following R packages (please cite accordingly):
 
 * [MARSS](https://cran.r-project.org/web/packages/MARSS/MARSS.pdf) package, created by: Eli Holmes, Eric Ward, and Kellie Wills, NOAA, Seattle, US. The MARSS package provides maximum-likelihood parameter estimation for con-
 strained and unconstrained linear multivariate autoregressive state-space (MARSS) mod-
