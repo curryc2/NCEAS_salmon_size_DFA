@@ -12,7 +12,8 @@ MARSS MLE Selection Example.R  | Example of AICc-based model selection for parsi
 
 ***
 ## Citation Information:
-#### Examples provided are based on length-at-age data provided by the Alaska Department of Fish and Game (ADF&G). 
+#### Examples are based on length-at-age data provided by the Alaska Department of Fish and Game (ADF&G). 
+###### Remember: Without the hard work by ADF&G staff and scientists, essential data are not collected, and we remain in the dark. 
 
 #### All R scripts and helper functions are based on the following R packages (please cite accordingly):
 
