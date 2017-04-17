@@ -1,9 +1,9 @@
 #************************************************************************************************
 #Project Name: ALASKAN SOCKEYE SIZE TRENDS DFA - Looping Through Process Numbers
-#Creator: Curry James Cunningham, SAFS, University of Washington
+#Creator: Dr. Curry James Cunningham, NOAA/NMFS, AFSC, ABL
 #Date: 4.16.17
 #
-#Purpose: Conduct a DFA on the size of Sockeye salmon throughout the state
+#Purpose: Select Optimal Number of Trends in DFA Model Based on AICc criteria
 #
 #
 #*************************************************************************************************

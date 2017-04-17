@@ -1,9 +1,9 @@
 #************************************************************************************************
-#Project Name: ALASKAN SOCKEYE SIZE TRENDS - Dynamic Factor Analysis of Size-at-Age Trends
-#Creator: Curry James Cunningham, SAFS, University of Washington
-#Date: 4.1.16
+#Project Name: ALASKAN SOCKEYE SIZE TRENDS - Bayesian Dynamic Factor Analysis of Size-at-Age Trends
+#Creator: Dr. Curry James Cunningham, NOAA/NMFS, AFSC, ABL
+#Date: 4.1.17
 #
-#Purpose: Conduct a DFA on the size of Sockeye salmon throughout the state
+#Purpose: Conduct a DFA on the size of Sockeye salmon throughout the state using Bayesian Methods
 #
 #
 #*************************************************************************************************

@@ -1,6 +1,6 @@
 #************************************************************************************************
 #Project Name: ALASKAN SOCKEYE SIZE TRENDS - Dynamic Factor Analysis of Size-at-Age Trends
-#Creator: Curry James Cunningham, SAFS, University of Washington
+#Creator: Dr. Curry James Cunningham, College of Fisheries and Ocean Sciences, University of Alaska, Fairbanks
 #Date: 4.1.16
 #
 #Purpose: Conduct a DFA on the size of Sockeye salmon throughout the state
