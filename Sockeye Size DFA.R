@@ -359,7 +359,10 @@ mod_fit <- get_DFA_fits(dfa)
 # fit.years <- seq(wb_weekly[1,"Date"],wb_weekly[n_wks,"Date"],by="6 months")
 # cols <- c("brown","darkgreen","blue")
 # years <- seq(from=wb_weekly[1,"Date"],by="weeks",length.out=wk_last)
-par(mfrow=c(3,1), mai=c(0.6,0.7,0.1,0.1), omi=c(0,0,0,0), mar=c(2,4.25,0,0), oma=c(0,0,2.25,0))
+
+pdf(paste('Plots/DFA Model Fits ', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
+
+par(mfrow=c(3,2), mai=c(0.6,0.7,0.1,0.1), omi=c(0,0,0,0), mar=c(2,4.25,0,0), oma=c(0,0,2.25,0))
 
 i <- 1
 for(i in 1:nn) {
@@ -395,9 +398,6 @@ dev.off()
 
 ###
 # Printing Section
-print(start)
-print(end)
-print(dfa_1$AICc)
 
 
 
