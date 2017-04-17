@@ -183,29 +183,12 @@ for(t in 1:n.trial.mm) {
   #Save Model
   fits.list[[t]] <- dfa
   
-  #Create Figures
-  if(mm==1) {
-    Z_rot <- coef(dfa, type="matrix")$Z
-    proc_rot <- dfa$states
-    #No plotting
-    unique.locs <- unique(temp.locations)
-    n.unique.locs <- length(unique.locs)
-    
-    temp.pal <- brewer.pal(n.unique.locs, name='Set1')
-    
-    cols <- vector(length=nn) #c("brown","darkgreen","blue")
-    i <- 1
-    for(i in 1:nn) {
-      cols[i] <- temp.pal[which(unique.locs %in% temp.locations[i])]
-    }
-    pdf(paste('Plots/MARSS Selection/', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
-    plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=ts_names, cols, nn)
-    dev.off()
-  }else {
-    proc_rot <- rotate_trends_MARSS(dfa)$proc_rot
-    Z_rot <- rotate_trends_MARSS(dfa)$Z_rot
+  ##### Create Figures #####
+  #Rotate Trends
+  proc_rot <- rotate_trends_MARSS(dfa)$proc_rot
+  Z_rot <- rotate_trends_MARSS(dfa)$Z_rot
   
-  
+  #Determine Locations
   unique.locs <- unique(temp.locations)
   n.unique.locs <- length(unique.locs)
   
