@@ -31,9 +31,6 @@ require(parallel)
 require(snowfall)
 
 
-wd <- '/Users/curryc2/Documents/2016/Lewis Size Eval'
-setwd(wd)
-
 #Source necessary scripts
 source('R/add-alpha.R')
 

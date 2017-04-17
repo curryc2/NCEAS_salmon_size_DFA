@@ -26,9 +26,6 @@ require(RColorBrewer)
 require(statss)
 require(rstan)
 
-wd <- '/Users/curryc2/Documents/2016/Lewis Size Eval'
-setwd(wd)
-
 source('R/get-DFA-fits.r')
 source('R/rotate-trends-MARSS.r')
 source('R/plot-trends-loadings-MARSS.r')
