@@ -122,7 +122,7 @@ temp.age <- paste(fwa, '.', oa, sep='')
 temp.loc <- which(head.type=='mean' & head.age==temp.age)
 temp.dat <- as.matrix(values[which(years %in% fit.years),temp.loc])
 temp.dat.2 <- matrix(as.numeric(temp.dat), nrow=nrow(temp.dat), ncol=ncol(temp.dat))
-temp.names <- head.stocks[temp.loc]
+ts_names <- head.stocks[temp.loc]
 temp.locations <- head.location[temp.loc]
 temp.sources <- head.source[temp.loc]
 #########################################################################################
@@ -192,7 +192,7 @@ n.dat <- dim(dat)[1]
 i <- 1
 for(i in 1:n.dat) {
   y.lim <- c(min(pred.low.95[i,], dat[i,], na.rm=TRUE), max(pred.up.95[i,], dat[i,], na.rm=TRUE))
-  plot(x=fit.years, y=dat[i,], pch=21, bg='gray', xaxt='n', ylim=y.lim, ylab=temp.names[i])
+  plot(x=fit.years, y=dat[i,], pch=21, bg='gray', xaxt='n', ylim=y.lim, ylab=ts_names[i])
   polygon(x=c(fit.years, rev(fit.years)), y=c(pred.up.95[i,], rev(pred.low.95[i,])), col=rgb(1,0,0, alpha=0.25), border=FALSE)
   polygon(x=c(fit.years, rev(fit.years)), y=c(pred.up.50[i,], rev(pred.low.50[i,])), col=rgb(1,0,0, alpha=0.25), border=FALSE)
   lines(x=fit.years, y=pred.med[i,], col='red')

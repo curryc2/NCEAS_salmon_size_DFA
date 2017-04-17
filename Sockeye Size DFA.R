@@ -33,10 +33,10 @@ source('R/plot-trends-loadings-MARSS.r')
 #==============================================
 # CONTROL SECTION
 fwa <- 1
-oa <- 2
+oa <- 3
 
 ## number of processes
-mm <- 2
+mm <- 1
 
 #Years
 fit.years <- 1975:2015
@@ -118,7 +118,7 @@ temp.age <- paste(fwa, '.', oa, sep='')
 temp.loc <- which(head.type=='mean' & head.age==temp.age)
 temp.dat <- as.matrix(values[which(years %in% fit.years),temp.loc])
 temp.dat.2 <- matrix(as.numeric(temp.dat), nrow=nrow(temp.dat), ncol=ncol(temp.dat))
-temp.names <- head.stocks[temp.loc]
+ts_names <- head.stocks[temp.loc]
 temp.locations <- head.location[temp.loc]
 temp.sources <- head.source[temp.loc]
 #########################################################################################
@@ -170,7 +170,7 @@ for(i in 1:nn) {
     if(i < j) {
       ZZ[i,j] <- 0
     }else {
-      ZZ[i,j] <- paste(temp.names[i], j, sep='_')
+      ZZ[i,j] <- paste(ts_names[i], j, sep='_')
     }
   }#cols = processes
 }#rows = time series
@@ -265,18 +265,6 @@ if(do.covars==TRUE) {
                covariates=NULL)
 }
 
-# 
-# #1.2 2 proc AICc: 1419.705  
-# #1.2 3 proce AICc: 1429.072 
-# end <- date()
-
-#==========================
-# mod_list.2 <- list(m=mm, R=RR)
-# mod_list.2 <- list(m=mm, R='diagonal and unequal')
-# dfa_2 <- MARSS(y=dat, model=mod_list.2, form='dfa', control=con_list, inits=init_list,
-#                covariates=covariates)
-
-
 
 #########################################################################################
 # ROTATING TRENDS AND LOADINGS
@@ -298,8 +286,8 @@ Z_rot <- rotate_trends_MARSS(dfa)$Z_rot
 # Plotting the processes & loadings
 pdf(paste('Plots/Sockeye Mean Size DFA ', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
 
-# ylbl <- temp.names 
-# xlbl <- years 
+# ts_names <- ts_names 
+# fit.years <- years 
 
 unique.locs <- unique(temp.locations)
 n.unique.locs <- length(unique.locs)
@@ -312,7 +300,7 @@ for(i in 1:nn) {
   cols[i] <- temp.pal[which(unique.locs %in% temp.locations[i])]
 }
 
-plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=temp.names, cols, nn)
+plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=ts_names, cols, nn)
 
 dev.off()
 
@@ -336,7 +324,7 @@ dev.off()
 # #   lines(years,proc_rot[i,], lwd=2)
 #   ## add panel labels
 #   mtext(paste("Process",i), side=3, line=0.5)
-#   # axis(1, at=xlbl, labels=format(xlbl, "%b %y"), cex.axis=0.8)
+#   # axis(1, at=fit.years, labels=format(fit.years, "%b %y"), cex.axis=0.8)
 #   if(i==1) { legend('topleft', legend=paste('AICc:', round(dfa$AICc,1))) }
 #   #Add legend
 #   if(i==1) { legend('bottom', title='Location', legend=unique.locs, fill=temp.pal, ncol=n.unique.locs) }
@@ -350,8 +338,8 @@ dev.off()
 #   plot(c(1:nn)[abs(Z_rot[,i])>minZ], as.vector(Z_rot[abs(Z_rot[,i])>minZ,i]), type="h",
 #        lwd=2, xlab="", ylab="", xaxt="n", ylim=ylm, xlim=c(0.5,nn+0.5), col=cols)
 #   for(j in 1:nn) {
-#     if(Z_rot[j,i] > minZ) { text(j, -0.03, ylbl[j], srt=90, adj=1, cex=1.2, col=cols[j]) }
-#     if(Z_rot[j,i] < -minZ) { text(j, 0.03, ylbl[j], srt=90, adj=0, cex=1.2, col=cols[j]) }
+#     if(Z_rot[j,i] > minZ) { text(j, -0.03, ts_names[j], srt=90, adj=1, cex=1.2, col=cols[j]) }
+#     if(Z_rot[j,i] < -minZ) { text(j, 0.03, ts_names[j], srt=90, adj=0, cex=1.2, col=cols[j]) }
 #     abline(h=0, lwd=1.5, col="gray")
 #   } 
 #   mtext(paste("Factor loadings on process",i),side=3,line=0.5)
@@ -367,8 +355,8 @@ dev.off()
 #Plot Model Fits
 mod_fit <- get_DFA_fits(dfa)
 ## plot the fits
-# ylbl <- c("DOC","TDN","TDP")
-# xlbl <- seq(wb_weekly[1,"Date"],wb_weekly[n_wks,"Date"],by="6 months")
+# ts_names <- c("DOC","TDN","TDP")
+# fit.years <- seq(wb_weekly[1,"Date"],wb_weekly[n_wks,"Date"],by="6 months")
 # cols <- c("brown","darkgreen","blue")
 # years <- seq(from=wb_weekly[1,"Date"],by="weeks",length.out=wk_last)
 par(mfrow=c(3,1), mai=c(0.6,0.7,0.1,0.1), omi=c(0,0,0,0), mar=c(2,4.25,0,0), oma=c(0,0,2.25,0))
@@ -378,9 +366,9 @@ for(i in 1:nn) {
   up <- mod_fit$up[i,]
   mn <- mod_fit$ex[i,]
   lo <- mod_fit$lo[i,]
-  plot(fit.years,mn,xlab="",ylab=ylbl[i],xaxt="n",type="n", cex.lab=1.2,
+  plot(fit.years,mn,xlab="",ylab=ts_names[i],xaxt="n",type="n", cex.lab=1.2,
        ylim=c(min(lo),max(up)))
-  axis(1, at=xlbl, labels=xlbl, cex.axis=1)
+  axis(1, at=fit.years, labels=fit.years, cex.axis=1)
   points(fit.years,dat[i,], pch=16, col=cols[i])
   lines(fit.years, up, col="darkgray")
   lines(fit.years, mn, col="black", lwd=2)
@@ -394,7 +382,7 @@ for(i in 1:nn) {
 # est.covar <- MARSSparamCIs(dfa_1)
 # 
 # #Extract Covariates
-# temp.names
+# ts_names
 
 
 

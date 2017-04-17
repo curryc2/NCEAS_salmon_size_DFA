@@ -100,7 +100,7 @@ temp.age <- paste(fwa, '.', oa, sep='')
 temp.loc <- which(head.type=='mean' & head.age==temp.age)
 temp.dat <- as.matrix(values[which(years %in% fit.years),temp.loc])
 temp.dat.2 <- matrix(as.numeric(temp.dat), nrow=nrow(temp.dat), ncol=ncol(temp.dat))
-temp.names <- head.stocks[temp.loc]
+ts_names <- head.stocks[temp.loc]
 temp.locations <- head.location[temp.loc]
 temp.sources <- head.source[temp.loc]
 #########################################################################################
@@ -164,7 +164,7 @@ for(t in 1:n.trial.mm) {
       if(i < j) {
         ZZ[i,j] <- 0
       }else {
-        ZZ[i,j] <- paste(temp.names[i], j, sep='_')
+        ZZ[i,j] <- paste(ts_names[i], j, sep='_')
       }
     }#cols = processes
   }#rows = time series
@@ -199,7 +199,7 @@ for(t in 1:n.trial.mm) {
       cols[i] <- temp.pal[which(unique.locs %in% temp.locations[i])]
     }
     pdf(paste('Plots/MARSS Selection/', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
-    plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=temp.names, cols, nn)
+    plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=ts_names, cols, nn)
     dev.off()
   }else {
     proc_rot <- rotate_trends_MARSS(dfa)$proc_rot
@@ -217,7 +217,7 @@ for(t in 1:n.trial.mm) {
     cols[i] <- temp.pal[which(unique.locs %in% temp.locations[i])]
   }
   pdf(paste('Plots/MARSS Selection/', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
-  plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=temp.names, cols, nn)
+  plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=ts_names, cols, nn)
   dev.off()
   
   #Plot Fits
@@ -225,7 +225,7 @@ for(t in 1:n.trial.mm) {
   pdf(paste('Plots/MARSS Selection/Fits_', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
   par(mfrow=c(3,1), mai=c(0.6,0.7,0.1,0.1), omi=c(0,0,0,0), mar=c(2,4.25,0,0), oma=c(0,0,2.25,0))
   
-  ts_names <- temp.names
+  ts_names <- ts_names
   
   i <- 1
   for(i in 1:nn) {
