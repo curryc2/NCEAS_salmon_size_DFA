@@ -33,7 +33,7 @@ source('R/plot-trends-loadings-MARSS.r')
 #==============================================
 # CONTROL SECTION
 fwa <- 2
-oa <- 3
+oa <- 2
 
 #Years
 fit.years <- 1975:2015
@@ -42,6 +42,7 @@ n.fit.years <- length(fit.years)
 #Boolean for covariates
 do.covars <- FALSE
 #==============================================
+start <- date()
 
 #Read in Data
 # data <- read.csv('Data/Length at Age.csv', header=FALSE)
@@ -138,7 +139,7 @@ DD  <- "zero"
 RR <- "diagonal and unequal" #Separate sigma for each time-series
 #########################################################################################
 # FIT THE MARSS MODEL
-trial.mm <- c(1:6)
+trial.mm <- c(1:5)
 n.trial.mm <- length(trial.mm)
 
 Age <- rep(paste0(fwa,'.',oa), n.trial.mm)
@@ -153,27 +154,29 @@ t <- 1
 for(t in 1:n.trial.mm) {
   mm <- trial.mm[t]
   
-  ## 'ZZ' is loadings matrix
-  ZZ <- matrix(list(0),nn,mm)
+  # ## 'ZZ' is loadings matrix
+  # ZZ <- matrix(list(0),nn,mm)
+  # 
+  # #Updated
+  # i <- 1
+  # for(i in 1:nn) {
+  #   j <- 1
+  #   for(j in 1:mm) {
+  #     if(i < j) {
+  #       ZZ[i,j] <- 0
+  #     }else {
+  #       ZZ[i,j] <- paste(ts_names[i], j, sep='_')
+  #     }
+  #   }#cols = processes
+  # }#rows = time series
   
-  #Updated
-  i <- 1
-  for(i in 1:nn) {
-    j <- 1
-    for(j in 1:mm) {
-      if(i < j) {
-        ZZ[i,j] <- 0
-      }else {
-        ZZ[i,j] <- paste(ts_names[i], j, sep='_')
-      }
-    }#cols = processes
-  }#rows = time series
-  
-  mod_list <- list(B=BB, U=uu, C=CC, c=cc, Q=QQ, Z=ZZ, A=aa, D=DD, d=dd, R=RR)
+  # mod_list <- list(B=BB, U=uu, C=CC, c=cc, Q=QQ, Z=ZZ, A=aa, D=DD, d=dd, R=RR)
   con_list <- list(maxit=5000, allow.degen=TRUE, safe=TRUE, conv.test.slope.tol=0.05)
 
-  
-  dfa <- MARSS(y=dat, model=mod_list, control=con_list)
+  mod_list.2 <- list(m=mm, R='diagonal and unequal')
+  dfa <- MARSS(y=dat, model=mod_list.2, form='dfa', control=con_list,
+               covariates=NULL)
+  # dfa <- MARSS(y=dat, model=mod_list, control=con_list)
   
   #Save Objects
   AIC[t] <- dfa$AIC
@@ -199,16 +202,14 @@ for(t in 1:n.trial.mm) {
   for(i in 1:nn) {
     cols[i] <- temp.pal[which(unique.locs %in% temp.locations[i])]
   }
-  pdf(paste('Plots/MARSS Selection/', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
+  pdf(paste('Plots/MARSS Selection/', RR, ' ', fwa, '.', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
   plot_trend_loadings_MARSS(MLEobj=dfa, proc_rot, Z_rot, fit.years, ts_names=ts_names, cols, nn)
   dev.off()
   
   #Plot Fits
   mod_fit <- get_DFA_fits(dfa)
-  pdf(paste('Plots/MARSS Selection/Fits_', RR, ' ', fwa, '_', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
-  par(mfrow=c(3,1), mai=c(0.6,0.7,0.1,0.1), omi=c(0,0,0,0), mar=c(2,4.25,0,0), oma=c(0,0,2.25,0))
-  
-  ts_names <- ts_names
+  pdf(paste('Plots/MARSS Selection/Fits_', RR, ' ', fwa, '.', oa,' proc_', mm, '.pdf', sep=''), height=9, width=12)
+  par(mfrow=c(3,3), mai=c(0.6,0.7,0.1,0.1), omi=c(0,0,0,0), mar=c(2,4.25,0,0), oma=c(0,0,2.25,0))
   
   i <- 1
   for(i in 1:nn) {
@@ -225,12 +226,12 @@ for(t in 1:n.trial.mm) {
     if(i%%3==1) { mtext(paste('Age:',temp.age), side=3, outer=TRUE, line=0.5, font=1, cex=1.5) }
   }
   dev.off()
-  }
 }
 #Output Data Frame
 out.df <- data.frame(Age,trial.mm,AIC,AICc,conv)
 
 write.csv(out.df, file=paste0('Output/',fwa,'.',oa,'_Models.csv'))
 
+end <- date()
 
 

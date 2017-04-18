@@ -128,12 +128,13 @@ temp.sources <- head.source[temp.loc]
 #########################################################################################
 dat <- t(scale(temp.dat.2))
 
-
-fit <- fit_dfa(y=dat, num_trends=2)
+#########################################################################################
+##### FIT STAN MODEL #####
+fit <- fit_dfa(y=dat, num_trends=2, chains=2, iter=1e4)
 
 
 names(fit)
-plot(fit)
+# plot(fit)
 
 rot <- rotate_trends(fit)
 
@@ -154,7 +155,7 @@ trend.up.95 <- apply(pars$x, c(2,3), quantile, 0.975)
 trend.low.50 <- apply(pars$x, c(2,3), quantile, 0.25)
 trend.up.50 <- apply(pars$x, c(2,3), quantile, 0.75)
 
-plot(x=NULL, y=NULL, xlim=c(min(fit.years), max(fit.years)), ylim=c(min(pred.low), max(pred.hi)), xlab='Year', ylab='Trend Value')
+plot(x=NULL, y=NULL, xlim=c(min(fit.years), max(fit.years)), ylim=c(min(trend.low.95), max(trend.up.95)), xlab='Year', ylab='Trend Value')
 axis(side=1, at=fit.years, col='black', labels=FALSE, tck=-0.01)
 
 # display.brewer.all(colorblindFriendly=TRUE)
@@ -185,7 +186,7 @@ pred.low.50 <- apply(pars$pred, c(2,3), quantile, 0.25)
 pred.up.50 <- apply(pars$pred, c(2,3), quantile, 0.75)
 
 n.per.page <- 4 #Number of plots per page
-par(mfrow=c(n.per.page,1), oma=c(4,4,1,1), mar=c(0,4,0,0))
+par(mfrow=c(n.per.page,3), oma=c(4,4,1,1), mar=c(0,4,0,0))
 
 n.dat <- dim(dat)[1]
 
@@ -234,6 +235,10 @@ for(i in 1:mm) {
   points(x=c(1:n.dat), y=z.med[,i], pch=21, bg='gray')
   
   abline(h=0)
+  
+  if(i==mm) {
+    axis(side=1, at=c(1:n.dat), labels=ts_names, )
+  }
 }#next i
 
 
