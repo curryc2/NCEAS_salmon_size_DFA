@@ -195,7 +195,7 @@ for(t in 1:n.trial.mm) {
   unique.locs <- unique(temp.locations)
   n.unique.locs <- length(unique.locs)
   
-  temp.pal <- brewer.pal(n.unique.locs, name='Set1')
+  temp.pal <- brewer.pal(n.unique.locs, name='Dark')
   
   cols <- vector(length=nn) #c("brown","darkgreen","blue")
   i <- 1

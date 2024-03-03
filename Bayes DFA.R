@@ -13,7 +13,7 @@
 #
 #
 #NOTES:
-#
+#  1) Try running across age classes, with proportion 3-ocean as covariate
 #
 #*************************************************************************************************
 require(MARSS)
